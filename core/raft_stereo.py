@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from core.update import BasicMultiUpdateBlock
+from core.update import BasicUpdateBlock
 from core.extractor import BasicEncoder, MultiBasicEncoder, ResidualBlock
 from core.corr import CorrBlock1D, PytorchAlternateCorrBlock1D, CorrBlockFast1D, AlternateCorrBlock
 from core.utils.utils import coords_grid, upflow8
@@ -27,7 +27,7 @@ class RAFTStereo(nn.Module):
         context_dims = args.hidden_dims
 
         self.cnet = MultiBasicEncoder(output_dim=[args.hidden_dims, context_dims], norm_fn=args.context_norm, downsample=args.n_downsample)
-        self.update_block = BasicMultiUpdateBlock(self.args, hidden_dims=args.hidden_dims)
+        self.update_block = BasicUpdateBlock(self.args, hdim=args.hidden_dims)
 
         self.context_zqr_convs = nn.ModuleList([nn.Conv2d(context_dims[i], args.hidden_dims[i]*3, 3, padding=3//2) for i in range(self.args.n_gru_layers)])
 
